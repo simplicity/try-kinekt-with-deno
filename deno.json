@@ -5,6 +5,6 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "kinekt": "npm:kinekt@^0.0.16"
+    "kinekt": "npm:kinekt@^0.0.17"
   }
 }
