@@ -1,7 +1,9 @@
 {
   "tasks": {
     "start:dev": "deno run --watch --allow-net api/api.ts",
-    "start:prd": "deno run --allow-net api/api.ts"
+    "start:prd": "deno run --allow-net api/api.ts",
+    "cli": "deno run --env-file --allow-env --allow-net cli/cli.ts",
+    "compile-cli": "deno compile --env-file --allow-env --allow-net --output tkwd cli/cli.ts"
   },
   "imports": {
     "@commander-js/extra-typings": "npm:@commander-js/extra-typings@^12.1.0",
