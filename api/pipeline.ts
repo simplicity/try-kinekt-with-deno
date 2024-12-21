@@ -1,24 +1,8 @@
 import {
-  authenticate,
   AuthenticateCallbackResult,
   BasePipelineContext,
-  checkAcceptHeader,
-  cors,
-  createPipeline,
-  createValidatedEndpointFactory,
-  deserialize,
-  finalize,
-  handleValidationErrors,
-  logger,
-  serialize,
-  ValidationErrors,
-  withValidation,
-} from "npm:kinekt";
-
-const defaultValidationErrorHandler = (validationErrors: ValidationErrors) => ({
-  statusCode: 400 as const,
-  body: validationErrors,
-});
+  simpleSetup,
+} from "kinekt";
 
 export type TestSession = { user: { email: string } };
 
@@ -32,17 +16,4 @@ async function getSession<In extends BasePipelineContext>(
     : { type: "set", session: { user: { email: atob(authorization) } } };
 }
 
-export const pipeline = createValidatedEndpointFactory(
-  createPipeline(
-    cors({ origins: "*" }),
-    authenticate(getSession),
-    checkAcceptHeader(),
-    deserialize(),
-    withValidation()
-  ).split(
-    handleValidationErrors(defaultValidationErrorHandler),
-    serialize(),
-    finalize(),
-    logger()
-  )
-);
+export const pipeline = simpleSetup({ cors: { origins: "*" }, getSession });

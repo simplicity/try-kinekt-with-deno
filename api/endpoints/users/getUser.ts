@@ -1,9 +1,18 @@
-import { z } from "npm:zod";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+import { db } from "../../../db/db.ts";
+import { users } from "../../../db/schema.ts";
 import { pipeline } from "../../pipeline.ts";
 
-type User = {
-  email: string;
-};
+type User = typeof users.$inferSelect;
+
+async function selectUser(id: number) {
+  return db
+    .select()
+    .from(users)
+    .where(eq(users.id, id))
+    .then((result) => result.at(0));
+}
 
 export const getUser = pipeline.createEndpoint(
   "GET /users/:id",
@@ -16,8 +25,8 @@ export const getUser = pipeline.createEndpoint(
     },
   },
 
-  async () => {
-    const user: User = { email: "some@email.com" };
+  async ({ params }) => {
+    const user = await selectUser(params.id);
 
     if (user === undefined) {
       return {

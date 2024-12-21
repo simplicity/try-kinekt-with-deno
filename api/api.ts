@@ -1,6 +1,8 @@
-import { createNotFoundEndpoint, createServer } from "npm:kinekt";
+import { createNotFoundEndpoint, createServer } from "kinekt";
+import { createUser } from "./endpoints/users/createUser.ts";
 import { getUser } from "./endpoints/users/getUser.ts";
+import { getUsers } from "./endpoints/users/getUsers.ts";
 
-const serve = createServer({});
+const serve = createServer();
 
-serve(createNotFoundEndpoint(), getUser);
+serve(createNotFoundEndpoint(), getUser, getUsers, createUser);
