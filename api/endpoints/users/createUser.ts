@@ -18,7 +18,7 @@ export const createUser = pipeline.createEndpoint(
   "POST /users",
 
   {
-    body: z.object({ name: z.string(), email: z.string() }),
+    body: z.object({ name: z.string(), email: z.string().email() }),
     response: {
       200: z.custom<User>(),
       409: z.custom<{ message: string }>(),
